@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -20,16 +22,21 @@ public class EmailLogger {
     private Date startDate;
 
     /**
-     * Email recipient send log recipient.
+     * Logs recipient.
      */
     private String recipient;
 
     /**
-     * Logging method used recipient log counter value and responsible for sending log reports via email.
+     * Logger user to log errors amd info.
      */
-    public void logging() {
+    private static final Logger logger = LoggerFactory.getLogger(EmailLogger.class);
 
-        // Username and password of gmail account used recipient send logs
+    /**
+     * Method used for sending logs.
+     */
+    private void sendLogsToEmail() {
+
+        // Username and password of gmail account used to send logs
         final String username = "a14211288@gmail.com";
         final String password = "Davyd0va";
 
@@ -53,7 +60,7 @@ public class EmailLogger {
         try {
             writer = new BufferedWriter(new FileWriter("log.txt"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
         // Send log with current counter value and time since program started every 5 minutes.
@@ -85,16 +92,16 @@ public class EmailLogger {
                 // Send message
                 Transport.send(message);
 
-                System.out.println("Log has been sent recipient " + recipient);
+                logger.info("Log has been sent recipient " + recipient);
 
                 // Wait 30 seconds until sending another log
                 Thread.sleep(30000);
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         }
     }
@@ -110,14 +117,8 @@ public class EmailLogger {
         startDate = new Date();
         this.recipient = recipient;
 
-        Thread logger = new Thread() {
-            @Override
-            public void run() {
-                logging();
-            }
-        };
-
-        logger.start();
+        // Start sendLogsToEmail
+        sendLogsToEmail();
     }
 
     /**
