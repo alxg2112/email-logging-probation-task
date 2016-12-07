@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <define name="recipient" class="LoggingPropertiesDefiner">
+        <propertyLookupKey>recipient</propertyLookupKey>
+    </define>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <appender name="ERROR_APPENDER" class="ch.qos.logback.core.FileAppender">
-        <file>errors.log</file>
-        <append>true</append>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <appender name="INFO_APPENDER" class="ch.qos.logback.core.FileAppender">
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>info.log</file>
         <append>true</append>
         <encoder>
@@ -22,15 +18,24 @@
         </encoder>
     </appender>
 
-    <logger name="ERROR_LOGGER" level="ERROR">
-        <appender-ref ref="ERROR_APPENDER" />
-    </logger>
+    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+        <smtpHost>smtp.gmail.com</smtpHost>
+        <smtpPort>587</smtpPort>
+        <STARTTLS>true</STARTTLS>
+        <asynchronousSending>false</asynchronousSending>
+        <username>a14211288@gmail.com</username>
+        <password>Davyd0va</password>
 
-    <logger name="INFO_LOGGER" level="INFO">
-        <appender-ref ref="INFO_APPENDER" />
-    </logger>
+        <to>${recipient}</to>
+        <from>test@gmail.com</from>
+        <subject>Log from the EmailLogger application</subject>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </layout>
+    </appender>
 
-    <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
+    <root level="TRACE">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="EMAIL"/>
     </root>
 </configuration>
