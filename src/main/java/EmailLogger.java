@@ -42,9 +42,9 @@ public class EmailLogger {
     }
 
     /**
-     * Method used for sending logs.
+     * Method used for writing and sending logs.
      */
-    private void sendLogsToEmail() {
+    private void initLogging() {
 
         // Create executor service to send logs periodically
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -73,7 +73,7 @@ public class EmailLogger {
         }
 
         // Start logging
-        sendLogsToEmail();
+        initLogging();
     }
 
     /**
