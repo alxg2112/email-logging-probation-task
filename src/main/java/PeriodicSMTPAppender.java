@@ -65,7 +65,7 @@ public class PeriodicSMTPAppender extends SMTPAppender {
     public void start() {
         PeriodicEvaluator periodicEvaluator = new PeriodicEvaluator(logSendingInterval);
         periodicEvaluator.setContext(this.getContext());
-        periodicEvaluator.setName("onError");
+        periodicEvaluator.setName("periodicAppender");
         periodicEvaluator.start();
         this.eventEvaluator = periodicEvaluator;
 
