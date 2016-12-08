@@ -61,6 +61,9 @@ public class PeriodicSMTPAppender extends SMTPAppender {
         }
     }
 
+    /**
+     * Override base start() method and set PeriodicEvaluator.
+     */
     @Override
     public void start() {
         PeriodicEvaluator periodicEvaluator = new PeriodicEvaluator(logSendingInterval);
