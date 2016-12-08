@@ -52,12 +52,12 @@ public class PeriodicSMTPAppender extends SMTPAppender {
             // Total time since last log has been sent in seconds
             double timeElapsed = (now.getTime() - lastSync.getTime()) / 1000d;
 
-            if(timeElapsed > logSendingInterval) {
+            if(timeElapsed > logSendingInterval || event.getLevel().levelInt >= Level.ERROR_INT) {
                 lastSync = now;
                 return true;
             }
 
-            return event.getLevel().levelInt >= Level.ERROR_INT;
+            return false;
         }
     }
 
