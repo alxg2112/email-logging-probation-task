@@ -1,9 +1,7 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -42,35 +40,23 @@ public class EmailLogger {
     }
 
     /**
-     * Method used for writing and sending logs.
+     * Method used for initiation of writing and sending logs.
      */
     private void initLogging() {
 
         // Create executor service to send logs periodically
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         LoggingTask logging = new LoggingTask();
-        executor.scheduleAtFixedRate(logging, 0, 30, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(logging, 0, 1, TimeUnit.SECONDS);
     }
 
     /**
      * Constructor.
-     *
-     * @param recipient email to send log to.
      */
-    public EmailLogger(String recipient) {
+    public EmailLogger() {
 
         // Initialize date and log recipient
         startDate = new Date();
-
-        // Add environment variable with recipient value
-        ProcessBuilder pb = new ProcessBuilder("CMD", "/C", "SET");
-        Map<String, String> env = pb.environment();
-        env.put("LOG_RECIPIENT", recipient);
-        try {
-            Process p = pb.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         // Start logging
         initLogging();
@@ -82,6 +68,6 @@ public class EmailLogger {
      * @param args command line parameters. Specifies recipient of logs.
      */
     public static void main(String[] args) {
-        new EmailLogger(args[0]);
+        new EmailLogger();
     }
 }
