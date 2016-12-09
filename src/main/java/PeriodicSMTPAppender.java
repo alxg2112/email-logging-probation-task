@@ -52,7 +52,7 @@ public class PeriodicSMTPAppender extends SMTPAppender {
             // Total time since last log has been sent in seconds
             double timeElapsed = (now.getTime() - lastSync.getTime()) / 1000d;
 
-            if(timeElapsed > logSendingInterval || event.getLevel().levelInt >= Level.ERROR_INT) {
+            if (timeElapsed > logSendingInterval || event.getLevel().levelInt >= Level.ERROR_INT) {
                 lastSync = now;
                 return true;
             }
@@ -79,7 +79,13 @@ public class PeriodicSMTPAppender extends SMTPAppender {
         return logSendingInterval;
     }
 
-    public void setLogSendingInterval(int logSendingInterval) {
+    public void setLogSendingInterval(int logSendingInterval) throws IllegalArgumentException {
+
+        if (logSendingInterval <= 0) {
+            throw new IllegalArgumentException(String.format("Illegal value for the log sending interval: %s. " +
+                    "Must be a positive integer.", logSendingInterval));
+        }
+
         this.logSendingInterval = logSendingInterval;
     }
 }
