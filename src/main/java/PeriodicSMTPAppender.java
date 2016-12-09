@@ -35,7 +35,7 @@ public class PeriodicSMTPAppender extends SMTPAppender {
         /**
          * Constructor.
          */
-        public PeriodicEvaluator(int logSendingInterval) {
+        private PeriodicEvaluator(int logSendingInterval) {
             lastSync = new Date();
             this.logSendingInterval = logSendingInterval;
         }
@@ -75,10 +75,21 @@ public class PeriodicSMTPAppender extends SMTPAppender {
         super.start();
     }
 
+    /**
+     * Get log sending interval value.
+     *
+     * @return log sending interval value.
+     */
     public int getLogSendingInterval() {
         return logSendingInterval;
     }
 
+    /**
+     * Set log sending interval.
+     *
+     * @param logSendingInterval value of log sending interval to set (in seconds).
+     * @throws IllegalArgumentException if attempted to set non-positive value.
+     */
     public void setLogSendingInterval(int logSendingInterval) throws IllegalArgumentException {
 
         if (logSendingInterval <= 0) {
