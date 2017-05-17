@@ -22,7 +22,7 @@
         <STARTTLS>true</STARTTLS>
         <asynchronousSending>false</asynchronousSending>
         <username>logback.mailer@gmail.com</username>
-        <password>Megaton!</password>
+        <password></password>
 
         <to>alxg2112@me.com</to>
         <from>logback.mailer@gmail.com</from>
